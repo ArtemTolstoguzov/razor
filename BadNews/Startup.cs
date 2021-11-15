@@ -1,7 +1,11 @@
-﻿using BadNews.ModelBuilders.News;
+﻿using BadNews.Elevation;
+using BadNews.ModelBuilders.News;
 using BadNews.Repositories.News;
+using BadNews.Repositories.Weather;
+using BadNews.Validation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,7 +29,10 @@ namespace BadNews
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<INewsRepository, NewsRepository>();
+            services.AddSingleton<IWeatherForecastRepository, WeatherForecastRepository>();
             services.AddSingleton<INewsModelBuilder, NewsModelBuilder>();
+            services.Configure<OpenWeatherOptions>(configuration.GetSection("OpenWeather"));
+            services.AddSingleton<IValidationAttributeAdapterProvider, StopWordsAttributeAdapterProvider>();
             var mvcBuilder = services.AddControllersWithViews();
             if (env.IsDevelopment())
                 mvcBuilder.AddRazorRuntimeCompilation();
@@ -42,6 +49,7 @@ namespace BadNews
             app.UseStaticFiles();
             app.UseSerilogRequestLogging();
             app.UseStatusCodePagesWithReExecute("/StatusCode/{0}");
+            app.UseMiddleware<ElevationMiddleware>();
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
