@@ -1,6 +1,6 @@
-@model BadNews.Repositories.Weather.WeatherForecast
+﻿@model BadNews.Repositories.Weather.WeatherForecast
 @{
-    string FormatTemperature(int temperature) => temperature > 0 ? $"+{temperature}" : temperature.ToString();
+    string FormatTemperature(double temperature) => temperature > 0 ? $"+{temperature}" : temperature.ToString();
 }
 
 <div class="p-4 bg-secondary text-light rounded weather-container">

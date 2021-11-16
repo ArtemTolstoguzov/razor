@@ -1,10 +1,12 @@
-using System;
+﻿using System;
+using BadNews.Elevation;
 using BadNews.Models.Editor;
 using BadNews.Repositories.News;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BadNews.Controllers
 {
+    [ElevationRequiredFilter]
     public class EditorController : Controller
     {
         private readonly INewsRepository newsRepository;
@@ -24,16 +26,23 @@ namespace BadNews.Controllers
         {
             if (!ModelState.IsValid)
                 return View("Index", model);
-
-            var id = newsRepository.CreateArticle(new NewsArticle
-            {
+            var id = newsRepository.CreateArticle(new NewsArticle {
                 Date = DateTime.Now.Date,
                 Header = model.Header,
                 Teaser = model.Teaser,
                 ContentHtml = model.ContentHtml,
             });
 
-            return RedirectToAction("FullArticle", "News", new { id });
+            return RedirectToAction("FullArticle", "News", new {
+                id = id
+            });
+        }
+        
+        [HttpPost]
+        public IActionResult DeleteArticle(Guid id)
+        {
+            newsRepository.DeleteArticleById(id);
+            return RedirectToAction("Index", "News");
         }
     }
 }

@@ -1,4 +1,4 @@
-@model BadNews.Models.Editor.IndexViewModel
+﻿@model BadNews.Models.Editor.IndexViewModel
 <main role="main" class="container">
     <div class="row">
         <div class="m-auto">
@@ -11,7 +11,7 @@
                         <input asp-for="Header" type="text" size="80">
                     </div>
                     <div>
-                        <span asp-validation-for="Header" class="text-danger"></span>
+                        <span class="text-danger" asp-validation-for="Header"></span>
                     </div>
                 </div>
                 <div class="p-2">
@@ -19,19 +19,19 @@
                         <label>Тизер</label>
                     </div>
                     <div>
-                        <textarea asp-for="Teaser"  cols="80" rows="5"></textarea>
+                        <textarea asp-for="Teaser" type="text" cols="80" rows="5" asp-validation-for="Teaser"></textarea>
                     </div>
                     <div>
-                        <span asp-validation-for="Teaser" class="text-danger"></span>
+                        <span class="text-danger"></span>
                     </div>
                 </div>
                 <div class="p-2">
                     <div class="mr-2"><label>Текст статьи в HTML</label></div>
                     <div>
-                        <textarea asp-for="ContentHtml" cols="80" rows="15"></textarea>
+                        <textarea asp-for="ContentHtml" type="text" cols="80" rows="15"></textarea>
                     </div>
                     <div>
-                        <span asp-validation-for="ContentHtml" class="text-danger"></span>
+                        <span class="text-danger" asp-validation-for="ContentHtml"></span>
                     </div>
                 </div>
                 <div class="p-2 mb-4 text-center">
